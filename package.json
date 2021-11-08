@@ -6,7 +6,7 @@
   "license": "GNU",
   "main": "lib/wl-gantt.umd.min.js",
   "bugs": {
-    "url": "https://github.com/tianlun1995/view-gantt.git"
+    "url": "git://github.com/tianlun1995/view-gantt.git"
   },
 
   "keyword": "gantt project wl-gantt 甘特图 项目管理 任务管理 vue element-ui 饿了么ui甘特图",
