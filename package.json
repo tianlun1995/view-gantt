@@ -2,7 +2,7 @@
   "name": "tl-gantt",
   "version": "0.0.1",
   "private": false,
-  "author": "https://github.com/tianlun1995/view-gantt",
+  "author": "tl",
   "license": "GNU",
   "main": "lib/wl-gantt.umd.min.js",
   "bugs": {
