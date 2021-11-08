@@ -49,6 +49,7 @@
       <el-table-column v-if="useIndexColumn" fixed type="index" width="50" label="序号"></el-table-column>
       <el-table-column
         fixed
+        v-if="useNameColoumn"
         label="名称"
         min-width="200"
         class-name="name-col"
@@ -93,7 +94,7 @@
       <el-table-column
         :resizable="false"
         fixed
-        width="160"
+        width="110"
         align="center"
         :prop="selfProps.startDate"
         label="开始日期"
@@ -122,7 +123,7 @@
       <el-table-column
         fixed
         :resizable="false"
-        width="160"
+        width="110"
         align="center"
         :prop="selfProps.endDate"
         label="结束日期"
@@ -348,6 +349,11 @@ export default {
     useCheckColumn: {
       type: Boolean,
       default: false
+    },
+      // 是否使用名称
+    useNameColoumn:{
+      type: Boolean,
+      default: false,
     },
     // 是否使用序号列
     useIndexColumn: {
