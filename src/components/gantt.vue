@@ -45,8 +45,20 @@
   >
     <template v-if="!ganttOnly">
       <slot name="prv"></slot>
-      <el-table-column v-if="useCheckColumn" fixed type="selection" width="55" align="center"></el-table-column>
-      <el-table-column v-if="useIndexColumn" fixed type="index" width="50" label="序号"></el-table-column>
+      <el-table-column
+        v-if="useCheckColumn"
+        fixed
+        type="selection"
+        width="55"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        v-if="useIndexColumn"
+        fixed
+        type="index"
+        width="50"
+        label="序号"
+      ></el-table-column>
       <el-table-column
         fixed
         v-if="useNameColoumn"
@@ -69,13 +81,16 @@
             placeholder="请输入名称"
           ></el-input>
           <strong v-else class="h-full">
-            <span @click="cellEdit( '_n_m_' + scope.$index, 'wl-name')">
+            <span @click="cellEdit('_n_m_' + scope.$index, 'wl-name')">
               {{
-              nameFormatter
-              ?
-              nameFormatter(scope.row, scope.column, scope.treeNode,scope.$index)
-              :
-              scope.row[selfProps.name]
+                nameFormatter
+                  ? nameFormatter(
+                      scope.row,
+                      scope.column,
+                      scope.treeNode,
+                      scope.$index
+                    )
+                  : scope.row[selfProps.name]
               }}
             </span>
             <span class="name-col-edit">
@@ -116,8 +131,10 @@
           <div
             v-else
             class="h-full"
-            @click="cellEdit( '_s_d_' + scope.$index, 'wl-start-date')"
-          >{{timeFormat(scope.row[selfProps.startDate])}}</div>
+            @click="cellEdit('_s_d_' + scope.$index, 'wl-start-date')"
+          >
+            {{ timeFormat(scope.row[selfProps.startDate]) }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column
@@ -146,7 +163,9 @@
             v-else
             class="h-full"
             @click="cellEdit('_e_d_' + scope.$index, 'wl-end-date')"
-          >{{timeFormat(scope.row[selfProps.endDate])}}</div>
+          >
+            {{ timeFormat(scope.row[selfProps.endDate]) }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column
@@ -178,77 +197,94 @@
           <div
             v-else
             class="h-full"
-            @click="preCellEdit(scope.row, '_p_t_' + scope.$index, 'wl-pre-select')"
-          >{{preFormat(scope.row)}}</div>
+            @click="
+              preCellEdit(scope.row, '_p_t_' + scope.$index, 'wl-pre-select')
+            "
+          >
+            {{ preFormat(scope.row) }}
+          </div>
         </template>
       </el-table-column>
       <slot></slot>
     </template>
-    <!-- year and mouth gantt -->
-    <template v-if="self_date_type === 'yearAndMonth'">
-      <el-table-column
-        :resizable="false"
-        v-for="year in ganttTitleDate"
-        :label="year.name"
-        :key="year.id"
-      >
+    <template v-if="linkTable">
+      <!-- year and mouth gantt -->
+      <template v-if="self_date_type === 'yearAndMonth'">
         <el-table-column
-          class-name="wl-gantt-item"
-          v-for="month in year.children"
           :resizable="false"
-          :key="month.id"
-          :label="month.name"
+          v-for="year in ganttTitleDate"
+          :label="year.name"
+          :key="year.id"
         >
-          <template slot-scope="scope">
-            <div :class="dayGanttType(scope.row, month.full_date, 'months')"></div>
-            <div v-if="useRealTime" :class="realDayGanttType(scope.row, month.full_date, 'months')"></div>
-          </template>
+          <el-table-column
+            class-name="wl-gantt-item"
+            v-for="month in year.children"
+            :resizable="false"
+            :key="month.id"
+            :label="month.name"
+          >
+            <template slot-scope="scope">
+              <div
+                :class="dayGanttType(scope.row, month.full_date, 'months')"
+              ></div>
+              <div
+                v-if="useRealTime"
+                :class="realDayGanttType(scope.row, month.full_date, 'months')"
+              ></div>
+            </template>
+          </el-table-column>
         </el-table-column>
-      </el-table-column>
-    </template>
-    <!-- year and week gantt -->
-    <template v-else-if="self_date_type === 'yearAndWeek'">
-      <el-table-column
-        :resizable="false"
-        v-for="i in ganttTitleDate"
-        :label="i.full_date"
-        :key="i.id"
-      >
+      </template>
+      <!-- year and week gantt -->
+      <template v-else-if="self_date_type === 'yearAndWeek'">
         <el-table-column
-          class-name="wl-gantt-item"
-          v-for="t in i.children"
           :resizable="false"
-          :key="t.id"
-          :label="t.name"
+          v-for="i in ganttTitleDate"
+          :label="i.full_date"
+          :key="i.id"
         >
-          <template slot-scope="scope">
-            <div :class="dayGanttType(scope.row, t.full_date, 'week')"></div>
-            <div v-if="useRealTime" :class="realDayGanttType(scope.row, t.full_date, 'week')"></div>
-          </template>
+          <el-table-column
+            class-name="wl-gantt-item"
+            v-for="t in i.children"
+            :resizable="false"
+            :key="t.id"
+            :label="t.name"
+          >
+            <template slot-scope="scope">
+              <div :class="dayGanttType(scope.row, t.full_date, 'week')"></div>
+              <div
+                v-if="useRealTime"
+                :class="realDayGanttType(scope.row, t.full_date, 'week')"
+              ></div>
+            </template>
+          </el-table-column>
         </el-table-column>
-      </el-table-column>
-    </template>
-    <!-- mouth and day gantt -->
-    <template v-else>
-      <el-table-column
-        :resizable="false"
-        v-for="i in ganttTitleDate"
-        :label="i.full_date"
-        :key="i.id"
-      >
+      </template>
+      <!-- mouth and day gantt -->
+      <template v-else>
         <el-table-column
-          class-name="wl-gantt-item"
-          v-for="t in i.children"
           :resizable="false"
-          :key="t.id"
-          :label="t.name"
+          v-for="i in ganttTitleDate"
+          :label="i.full_date"
+          :key="i.id"
         >
-          <template slot-scope="scope">
-            <div :class="dayGanttType(scope.row, t.full_date)"></div>
-            <div v-if="useRealTime" :class="realDayGanttType(scope.row, t.full_date)"></div>
-          </template>
+          <el-table-column
+            class-name="wl-gantt-item"
+            v-for="t in i.children"
+            :resizable="false"
+            :key="t.id"
+            :label="t.name"
+          >
+            <template slot-scope="scope">
+              <div :class="dayGanttType(scope.row, t.full_date)"></div>
+              <div
+                v-if="useRealTime"
+                :class="realDayGanttType(scope.row, t.full_date)"
+              ></div>
+            </template>
+          </el-table-column>
         </el-table-column>
-      </el-table-column>
+      </template>
     </template>
   </el-table>
 </template>
@@ -287,6 +323,11 @@ export default {
     };
   },
   props: {
+    //是否显示时间甘特图
+    linkTable: {
+      type: Boolean,
+      default: true,
+    },
     // gantt数据
     data: {
       type: Array,
@@ -350,8 +391,8 @@ export default {
       type: Boolean,
       default: false
     },
-      // 是否使用名称
-    useNameColoumn:{
+    // 是否使用名称
+    useNameColoumn: {
       type: Boolean,
       default: false,
     },

@@ -1,15 +1,17 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png" />
+    <div><input type="checkbox" v-model="linkTable" /> 联动表单</div>
     <div class="wl-gantt-demo">
       <wlGantt
         ref="wl-gantt-demo"
         use-real-time
-        end-date="2019-11-02"
-        start-date="2019-9-06"
+        :end-date="endTime"
+        :start-date="startTime"
         date-type="monthAndDay"
         :data="data"
         :columns="columns"
+        :linkTable="linkTable"
         :contextMenuOptions="contextMenuOptions"
         @selection-change="selectionChange"
         @expand-change="expandChange"
@@ -18,17 +20,22 @@
         @preChange="preChange"
         @taskAdd="taskAdd"
       >
-      <template slot="prv">
-          <el-table-column prop="name" label="节点" fixed width="150"> </el-table-column>
-          <el-table-column prop="progress" label="标准进度" fixed> </el-table-column>
-          <el-table-column prop="deliver" label="交付物" fixed> </el-table-column>
+        <template slot="prv">
+          <el-table-column prop="name" label="节点" fixed width="150">
+          </el-table-column>
+          <el-table-column prop="progress" label="标准进度" fixed>
+          </el-table-column>
+          <el-table-column prop="deliver" label="交付物" fixed>
+          </el-table-column>
           <el-table-column prop="state" label="状态" fixed> </el-table-column>
-          <el-table-column prop="ifLock" label="锁定否" fixed> </el-table-column>
-      </template>
+          <el-table-column prop="ifLock" label="锁定否" fixed>
+          </el-table-column>
+        </template>
         <template #info-card="{ row }">
           <ul>
             <li>
-              <label for="name">名称：</label><span id="name">{{ row.name }}</span>
+              <label for="name">名称：</label
+              ><span id="name">{{ row.name }}</span>
             </li>
           </ul>
         </template>
@@ -42,9 +49,20 @@ import WlGantt from "@/pages/wl-gantt";
 
 export default {
   name: "app",
+  watch: {
+    checked(val) {
+      this.linkTable = val
+
+      console.log(val, 22222, this.endTime);
+    }
+  },
   data() {
     return {
+      endTime: '2019-10-30',
+      startTime: '2019-09-01',
+      linkTable: true,
       projectTime: {},
+      checked: true,
       data: [
         {
           id: "1",
@@ -116,6 +134,9 @@ export default {
       ],
       columns: [{ type: "name", minWidth: 200, colType: "expand" }], // 可通过此参数配置列。其中内置有名称name、开始日期startDate、结束日期endDate、前置任务preTask，如果cloumns中有type等于这四个且slot为false时，将使用内置代码，当然除了内容使用内置代码，其他字段你还拥有配置权。另外如果不是为了配置内置列参数，slot中的prv和default仍可以用来自定义列
     };
+  },
+  mounted() {
+    window.demo = this
   },
   methods: {
     aa(row) {
