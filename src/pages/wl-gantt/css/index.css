@@ -102,7 +102,7 @@
   right: -1px;
   margin-top: -8px;
   height: 16px;
-  background: #faa792;
+  background: #7DF273;
   transition: all 0.4s;
 }
 
@@ -118,7 +118,7 @@
   content: "";
   width: 0;
   height: 0;
-  border-color: #faa792 transparent transparent;
+  border-color: #7DF273 transparent transparent;
   border-width: 6px 6px 6px 0;
   border-style: solid;
 }
@@ -135,7 +135,7 @@
   content: "";
   width: 0;
   height: 0;
-  border-color: transparent #faa792;
+  border-color: transparent #7DF273;
   border-width: 0 6px 6px 0;
   border-style: solid;
 }
@@ -153,7 +153,7 @@
   content: "";
   width: 0;
   height: 0;
-  border-color: #faa792 transparent transparent;
+  border-color: #7DF273 transparent transparent;
   border-width: 6px 6px 6px 0;
   border-style: solid;
 }
@@ -166,7 +166,7 @@
   content: "";
   width: 0;
   height: 0;
-  border-color: transparent #faa792;
+  border-color: transparent #7DF273;
   border-width: 0 6px 6px 0;
   border-style: solid;
 }

@@ -169,14 +169,24 @@
                 <div
                   v-else
                   class="h-full"
-                  @click="preCellEdit(scope.row, '_p_t_' + scope.$index, 'wl-pre-select')"
+                  @click="
+                    preCellEdit(
+                      scope.row,
+                      '_p_t_' + scope.$index,
+                      'wl-pre-select'
+                    )
+                  "
                 >
                   {{ preFormat(scope.row) }}
                 </div>
               </template>
             </template>
             <template v-else>
-              <slot :name="item.prop" :row="scope.row" :index="scope.$index"></slot>
+              <slot
+                :name="item.prop"
+                :row="scope.row"
+                :index="scope.$index"
+              ></slot>
             </template>
           </template>
         </el-table-column>
@@ -198,7 +208,9 @@
             :label="month.name"
           >
             <template slot-scope="scope">
-              <div :class="dayGanttType(scope.row, month.full_date, 'months')"></div>
+              <div
+                :class="dayGanttType(scope.row, month.full_date, 'months')"
+              ></div>
               <div
                 v-if="useRealTime"
                 :class="realDayGanttType(scope.row, month.full_date, 'months')"
@@ -1770,7 +1782,7 @@ $gantt_item_half: 8px;
     right: -1px;
     margin-top: -$gantt_item_half;
     height: $gantt_item;
-    background: #faa792; //rgba(250, 167, 146, .6);
+    background: #7df273; //rgba(250, 167, 146, .6);
     transition: all 0.4s;
   }
   .wl-real-start {
@@ -1783,7 +1795,7 @@ $gantt_item_half: 8px;
       content: "";
       width: 0;
       height: 0;
-      border-color: #faa792 transparent transparent;
+      border-color: #7df273 transparent transparent;
       border-width: 6px 6px 6px 0;
       border-style: solid;
     }
@@ -1799,7 +1811,7 @@ $gantt_item_half: 8px;
       content: "";
       width: 0;
       height: 0;
-      border-color: transparent #faa792;
+      border-color: transparent #7df273;
       border-width: 0 6px 6px 0;
       border-style: solid;
     }
@@ -1816,7 +1828,7 @@ $gantt_item_half: 8px;
       content: "";
       width: 0;
       height: 0;
-      border-color: #faa792 transparent transparent;
+      border-color: #7df273 transparent transparent;
       border-width: 6px 6px 6px 0;
       border-style: solid;
     }
@@ -1828,7 +1840,7 @@ $gantt_item_half: 8px;
       content: "";
       width: 0;
       height: 0;
-      border-color: transparent #faa792;
+      border-color: transparent #7df273;
       border-width: 0 6px 6px 0;
       border-style: solid;
     }

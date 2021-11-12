@@ -8,8 +8,8 @@
         @click="handleMenuItem(item)"
       >
         <div class="memu-item-icon" :class="item.icon"></div>
-        <div class="memu-item-title">{{item.label}}</div>
-        <div class="memu-item-value">{{item.value}}</div>
+        <div class="memu-item-title">{{ item.label }}</div>
+        <div class="memu-item-value">{{ item.value }}</div>
       </li>
       <li class="menu-item" v-if="menuList.length === 0" @click="flag = false">
         <span class="memu-item-title">暂无菜单</span>

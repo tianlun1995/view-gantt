@@ -11,6 +11,7 @@
         date-type="monthAndDay"
         :data="data"
         :columns="columns"
+        :edit="false"
         :linkTable="linkTable"
         :contextMenuOptions="contextMenuOptions"
         @selection-change="selectionChange"
@@ -19,16 +20,40 @@
         @taskRemove="taskRemove"
         @preChange="preChange"
         @taskAdd="taskAdd"
+        @taskEdit="taskEdit"
       >
         <template slot="prv">
-          <el-table-column prop="name" label="节点" fixed width="150">
+          <el-table-column
+            prop="standardProgress"
+            label="标准进度"
+            fixed
+            align="center"
+          >
           </el-table-column>
-          <el-table-column prop="progress" label="标准进度" fixed>
+          <el-table-column prop="submitDoc" label="交付物" fixed align="center">
           </el-table-column>
-          <el-table-column prop="deliver" label="交付物" fixed>
+          <el-table-column prop="status" label="状态" fixed align="center">
+            <template slot-scope="scope">
+              <!-- 0未锁定  1锁定 -->
+              <span>
+                {{ scope.row.statusText }}
+              </span>
+            </template>
           </el-table-column>
-          <el-table-column prop="state" label="状态" fixed> </el-table-column>
-          <el-table-column prop="ifLock" label="锁定否" fixed>
+          <el-table-column
+            prop="lockStatus"
+            label="锁定否"
+            fixed
+            align="center"
+          >
+            <template slot-scope="scope">
+              <!-- 0未锁定  1锁定 -->
+              <i
+                :class="
+                  scope.row.lockStatus == 0 ? 'el-icon-unlock' : 'el-icon-lock'
+                "
+              ></i>
+            </template>
           </el-table-column>
         </template>
         <template #info-card="{ row }">
@@ -58,77 +83,16 @@ export default {
   },
   data() {
     return {
-      endTime: '2019-10-30',
+      endTime: '2019-09-30',
       startTime: '2019-09-01',
       linkTable: true,
       projectTime: {},
       checked: true,
-      data: [
-        {
-          id: "1",
-          pid: "0",
-          name: "旅行",
-          startDate: "2019-09-07",
-          realStartDate: "2019-09-10",
-          endDate: "2019-10-31",
-          realEndDate: "2019-10-19",
-          children: [
-            {
-              id: "1-1",
-              pid: "1",
-              name: "云台之间",
-              startDate: "2019-09-10",
-              endDate: "2019-09-13",
-              children: [
-                {
-                  id: "1-1-1",
-                  pid: "1-1",
-                  name: "日落云巅",
-                  startDate: "2019-09-10",
-                  endDate: "2019-09-13",
-                },
-              ],
-            },
-            {
-              id: "1-2",
-              pid: "1",
-              name: "天空之镜",
-              startDate: "2019-09-17",
-              endDate: "2019-09-22",
-            },
-            {
-              id: "1-3",
-              name: "蓬莱之岛",
-              pid: "1",
-              startDate: "2019-09-25",
-              endDate: "2019-09-30",
-            },
-            {
-              id: "1-4",
-              pid: "1",
-              name: "西塘之南",
-              startDate: "2019-10-03",
-              endDate: "2019-10-07",
-            },
-            {
-              pid: "1",
-              id: "1-5",
-              name: "凤凰之缘",
-              startDate: "2019-10-11",
-              endDate: "2019-10-19",
-            },
-          ],
-        },
-        {
-          id: "2",
-          name: "租房子",
-          startDate: "2019-09-20",
-          endDate: "2019-10-31",
-        },
-      ], // 数据
+      data: [{ "id": "1458995144703324161", "parentId": 0, "name": "项目终验与归档", "startDate": "2019-09-03", "endDate": "2019-09-30", "realStartDate": "2019-09-10", "realEndDate": "2019-09-25", "standardProgress": -1, "realProgress": -1, "submitDoc": "终验报告,源代码,验收评价", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 1, "children": [{ "id": "1458995148130070530", "parentId": "1458995144703324161", "name": "项目归档", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "终验报告,源代码,验收评价", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995148557889538", "parentId": "1458995144703324161", "name": "项目终验", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "终验报告,源代码,验收评价", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }], "hasChildren": true }, { "id": "1458995145126948865", "parentId": 0, "name": "上线试运行", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "试运行报告", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995145550573570", "parentId": 0, "name": "系统初验", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "系统初验报告,初验问题清单", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995145986781186", "parentId": 0, "name": "测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "测试", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [{ "id": "1458995148994097154", "parentId": "1458995145986781186", "name": "验收测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995149421916162", "parentId": "1458995145986781186", "name": "系统测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995149874900993", "parentId": "1458995145986781186", "name": "集成测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995150298525697", "parentId": "1458995145986781186", "name": "单元测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }], "hasChildren": true }, { "id": "1458995146414600193", "parentId": 0, "name": "编码", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "编码", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995146846613506", "parentId": 0, "name": "详细设计", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "详细设计说明书", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995147270238209", "parentId": 0, "name": "概要设计", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [{ "id": "1458995150722150401", "parentId": "1458995147270238209", "name": "概要设计终审", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995151166746625", "parentId": "1458995147270238209", "name": "概要设计评审", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995151586177026", "parentId": "1458995147270238209", "name": "概要初步设计", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }], "hasChildren": true }, { "id": "1458995147698057217", "parentId": 0, "name": "需求分析", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "需求规格说明书", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [{ "id": "1458995152009801730", "parentId": "1458995147698057217", "name": "需规评审", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995152437620738", "parentId": "1458995147698057217", "name": "创建逻辑模型", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995152869634049", "parentId": "1458995147698057217", "name": "需求调研", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }], "hasChildren": true }],
       selected: [], // 选中数据
       contextMenuOptions: [
         { label: "任务名称", prop: "name" },
+        { label: "交付物", prop: 'submitDoc' },
         { label: "开始时间", prop: "startDate" },
         { label: "结束时间", prop: "endDate" },
       ],
@@ -136,9 +100,21 @@ export default {
     };
   },
   mounted() {
-    window.demo = this
+    this.data = this.setTreeTable(this.data)
+    console.log(this.data, 'dada');
   },
   methods: {
+    setTreeTable(data) {
+      let list = []
+      data.forEach((e) => {
+        delete e.hasChildren
+        if (e.children) {
+          this.setTreeTable(e.children)
+        }
+        list.push(e)
+      });
+      return list
+    },
     aa(row) {
       console.log(row, 99);
     },
@@ -148,6 +124,10 @@ export default {
      */
     timeChange(row) {
       console.log("时间修改:", row);
+    },
+    //修改任务
+    taskEdit(row) {
+      console.log("修改任务", row);
     },
     //
     /**
