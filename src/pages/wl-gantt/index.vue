@@ -1699,7 +1699,6 @@ export default {
     }, // 当某一行被点击时会触发该事件
     handleRowContextMenu(row, column, event) {
       this.$emit("row-contextmenu", row, column, event);
-      console.log(row, column, 'row, column,', this.contextMenuOptions);
       // 处理右键菜单浮窗
       if (!Array.isArray(this.contextMenuOptions)) return;
       this.contextMenu.data = [];
