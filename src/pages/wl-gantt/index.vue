@@ -95,7 +95,7 @@
                     : scope.row[selfProps.name]
                 }}
               </span>
-              <span class="name-col-edit" v-if="scope.row.lockStatus == 0">
+              <!-- <span class="name-col-edit" v-if="scope.row.lockStatus == 0">
                 <i
                   class="el-icon-circle-plus-outline name-col-icon task-add"
                   @click="emitTaskAdd(scope.row)"
@@ -109,6 +109,10 @@
                   class="el-icon-remove-outline name-col-icon task-remove"
                   @click="emitTaskRemove(scope.row)"
                 ></i>
+              </span> -->
+
+              <span style="position: absolute; right: 10px">
+                <slot name="soltBtn" :row="scope.row"></slot>
               </span>
             </strong>
           </template>
@@ -342,6 +346,8 @@ export default {
   components: { ContextMenu },
   data() {
     return {
+      tableKey: '',
+      showIndex: -1,
       self_start_date: "", // 项目开始时间
       self_end_date: "", // 项目结束时间
       self_data_list: [], // 一维化后的gantt数据
@@ -545,6 +551,11 @@ export default {
     } */
   },
   computed: {
+
+    droKey() {
+      return new Date().getTime()
+    },
+
     // 甘特图标题日期分配
     ganttTitleDate() {
       // 分解开始和结束日期
@@ -630,6 +641,14 @@ export default {
     },
   },
   methods: {
+    //隐藏按钮插槽
+    showSoltBtn(index) {
+      if (index == this.showIndex) {
+        return true
+      } else {
+        return false
+      }
+    },
     // 设置dateType
     setDataType(type) {
       this.self_date_type = type;
@@ -1657,6 +1676,8 @@ export default {
       this.$emit("select", selection, row, _is_add);
     }, // 当用户手动勾选全选 Checkbox 时触发的事件
     handleMouseEnter(row, column, cell, event) {
+      this.showIndex = row.indexs
+      // debugger
       if (this.useCard) {
         this.infoCard.show = true;
         this.infoCard.x = event.screenX;
@@ -1667,9 +1688,11 @@ export default {
         this.infoCard.event = event;
         this.infoCard.timer && clearTimeout(this.infoCard.timer);
       }
+      // debugger
       this.$emit("cell-mouse-enter", row, column, cell, event);
     }, // 当单元格 hover 进入时会触发该事件
     handleMouseLeave(row, column, cell, event) {
+      // this.showIndex = -1
       if (this.useCard) {
         this.infoCard.timer = setTimeout(() => {
           this.infoCard.show = false;

@@ -11,8 +11,9 @@
         date-type="monthAndDay"
         :data="data"
         :columns="columns"
-        :edit="false"
+        :edit="true"
         :linkTable="linkTable"
+        :rowClassName="tableRowClassName"
         :contextMenuOptions="contextMenuOptions"
         @selection-change="selectionChange"
         @expand-change="expandChange"
@@ -21,7 +22,24 @@
         @preChange="preChange"
         @taskAdd="taskAdd"
         @taskEdit="taskEdit"
+        @cell-mouse-enter="cellMouseEnter"
       >
+        <template slot="soltBtn" slot-scope="{ row }">
+          <!-- <el-button @click="aaa(row)" size="mini">asd</el-button> -->
+          <el-dropdown
+            class="new-dropdown"
+            @command="handleCommand($event, row)"
+          >
+            <span class="el-dropdown-link" style="color: blue">
+              操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="add">新增</el-dropdown-item>
+              <el-dropdown-item command="update">修改</el-dropdown-item>
+              <el-dropdown-item command="remove">删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </template>
         <template slot="prv">
           <el-table-column
             prop="standardProgress"
@@ -83,9 +101,10 @@ export default {
   },
   data() {
     return {
+      vale1111: '',
       endTime: '2019-09-30',
       startTime: '2019-09-01',
-      linkTable: true,
+      linkTable: false,
       projectTime: {},
       checked: true,
       data: [{ "id": "1458995144703324161", "parentId": 0, "name": "项目终验与归档", "startDate": "2019-09-03", "endDate": "2019-09-30", "realStartDate": "2019-09-10", "realEndDate": "2019-09-25", "standardProgress": -1, "realProgress": -1, "submitDoc": "终验报告,源代码,验收评价", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 1, "children": [{ "id": "1458995148130070530", "parentId": "1458995144703324161", "name": "项目归档", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "终验报告,源代码,验收评价", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995148557889538", "parentId": "1458995144703324161", "name": "项目终验", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "终验报告,源代码,验收评价", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }], "hasChildren": true }, { "id": "1458995145126948865", "parentId": 0, "name": "上线试运行", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "试运行报告", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995145550573570", "parentId": 0, "name": "系统初验", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "系统初验报告,初验问题清单", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995145986781186", "parentId": 0, "name": "测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "测试", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [{ "id": "1458995148994097154", "parentId": "1458995145986781186", "name": "验收测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995149421916162", "parentId": "1458995145986781186", "name": "系统测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995149874900993", "parentId": "1458995145986781186", "name": "集成测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995150298525697", "parentId": "1458995145986781186", "name": "单元测试", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }], "hasChildren": true }, { "id": "1458995146414600193", "parentId": 0, "name": "编码", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "编码", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995146846613506", "parentId": 0, "name": "详细设计", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "详细设计说明书", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995147270238209", "parentId": 0, "name": "概要设计", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [{ "id": "1458995150722150401", "parentId": "1458995147270238209", "name": "概要设计终审", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995151166746625", "parentId": "1458995147270238209", "name": "概要设计评审", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995151586177026", "parentId": "1458995147270238209", "name": "概要初步设计", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }], "hasChildren": true }, { "id": "1458995147698057217", "parentId": 0, "name": "需求分析", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "需求规格说明书", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [{ "id": "1458995152009801730", "parentId": "1458995147698057217", "name": "需规评审", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995152437620738", "parentId": "1458995147698057217", "name": "创建逻辑模型", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }, { "id": "1458995152869634049", "parentId": "1458995147698057217", "name": "需求调研", "startDate": "", "endDate": "", "realStartDate": "", "realEndDate": "", "standardProgress": -1, "realProgress": -1, "submitDoc": "", "status": "1", "statusText": "未提交", "sort": 0, "lockStatus": 0, "children": [], "hasChildren": false }], "hasChildren": true }],
@@ -96,14 +115,42 @@ export default {
         { label: "开始时间", prop: "startDate" },
         { label: "结束时间", prop: "endDate" },
       ],
-      columns: [{ type: "name", minWidth: 200, colType: "expand" }], // 可通过此参数配置列。其中内置有名称name、开始日期startDate、结束日期endDate、前置任务preTask，如果cloumns中有type等于这四个且slot为false时，将使用内置代码，当然除了内容使用内置代码，其他字段你还拥有配置权。另外如果不是为了配置内置列参数，slot中的prv和default仍可以用来自定义列
+      columns: [{ type: 'index' }, { type: "name", minWidth: 200, colType: "expand" }], // 可通过此参数配置列。其中内置有名称name、开始日期startDate、结束日期endDate、前置任务preTask，如果cloumns中有type等于这四个且slot为false时，将使用内置代码，当然除了内容使用内置代码，其他字段你还拥有配置权。另外如果不是为了配置内置列参数，slot中的prv和default仍可以用来自定义列
     };
   },
   mounted() {
     this.data = this.setTreeTable(this.data)
     console.log(this.data, 'dada');
   },
+  computed: {
+    droKey() {
+      return new Date().getTime()
+    }
+  },
   methods: {
+    aaa(row) {
+      debugger
+      console.log(1111, row);
+    },
+    //隐藏按钮插槽
+    showSoltBtn(index) {
+      if (index == this.showIndex) {
+        return true
+      } else {
+        return false
+      }
+    },
+    cellMouseEnter(row, e) {
+      // console.log(row);
+    },
+    tableRowClassName({ row, rowIndex }) {
+      row.indexs = rowIndex
+      return { row, rowIndex }
+    },
+    handleCommand(command, row) {
+
+      console.log(command, '....', row);
+    },
     setTreeTable(data) {
       let list = []
       data.forEach((e) => {
@@ -211,5 +258,8 @@ export default {
 .wl-gantt-demo {
   margin: 40px auto;
   // width: 800px;
+  // .new-dropdown{
+
+  // }
 }
 </style>

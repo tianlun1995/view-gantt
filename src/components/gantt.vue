@@ -92,7 +92,7 @@
                   : scope.row[selfProps.name]
               }}
             </span>
-            <span class="name-col-edit" v-if="scope.row.lockStatus == 0">
+            <!-- <span class="name-col-edit" v-if="scope.row.lockStatus == 0">
               <i
                 class="el-icon-circle-plus-outline name-col-icon task-add"
                 @click="emitTaskAdd(scope.row)"
@@ -106,6 +106,9 @@
                 class="el-icon-remove-outline name-col-icon task-remove"
                 @click="emitTaskRemove(scope.row)"
               ></i>
+            </span> -->
+            <span style="position: absolute; right: 10px">
+              <slot name="soltBtn" :row="scope.row"></slot>
             </span>
           </strong>
         </template>
