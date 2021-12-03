@@ -1264,35 +1264,35 @@ export default {
     },
     // 取父节点开始时间给早于父节点开始时间的子节点
     parentStartDateToChild(item) {
-      if (!item._parent) return;
-      // 如果子节点时间早于父节点，则将子节点开始时间后移至父节点开始时间,并将结束时间平移【即工期不变】
-      let _child_early_parent = this.timeIsBefore(
-        item[this.selfProps.startDate],
-        item._parent[this.selfProps.startDate]
-      );
-      if (_child_early_parent) {
-        // 修正子节点开始时间
-        this.$set(item, this.selfProps.startDate, item._parent[this.selfProps.startDate]);
-        // 修正子节点结束时间
-        let _to_endDate = this.timeAdd(item[this.selfProps.startDate], item._cycle);
-        this.$set(item, this.selfProps.endDate, _to_endDate);
-        this.emitTimeChange(item); // 将发生时间更新的数据输出
-      }
+      // if (!item._parent) return;
+      // // 如果子节点时间早于父节点，则将子节点开始时间后移至父节点开始时间,并将结束时间平移【即工期不变】
+      // let _child_early_parent = this.timeIsBefore(
+      //   item[this.selfProps.startDate],
+      //   item._parent[this.selfProps.startDate]
+      // );
+      // if (_child_early_parent) {
+      //   // 修正子节点开始时间
+      //   this.$set(item, this.selfProps.startDate, item._parent[this.selfProps.startDate]);
+      //   // 修正子节点结束时间
+      //   let _to_endDate = this.timeAdd(item[this.selfProps.startDate], item._cycle);
+      //   this.$set(item, this.selfProps.endDate, _to_endDate);
+      //   this.emitTimeChange(item); // 将发生时间更新的数据输出
+      // }
     },
     // 取数组结束时间最大值，如果最大值比父级结束时间大，更新父级结束时间
     childEndDateToParent(item) {
-      if (!Array.isArray(item[this.selfProps.children])) return;
-      let _child_max = getMax(
-        item[this.selfProps.children],
-        this.selfProps.endDate,
-        true
-      ); // 取子节点中最晚的结束时间
-      let _parent_end = dayjs(item[this.selfProps.endDate]).valueOf();
-      if (_child_max > _parent_end) {
-        // 如果子节点结束时间比父节点晚，则将父节点结束时间退后
-        this.$set(item, this.selfProps.endDate, this.timeFormat(_child_max));
-        this.emitTimeChange(item); // 将发生时间更新的数据输出
-      }
+      // if (!Array.isArray(item[this.selfProps.children])) return;
+      // let _child_max = getMax(
+      //   item[this.selfProps.children],
+      //   this.selfProps.endDate,
+      //   true
+      // ); // 取子节点中最晚的结束时间
+      // let _parent_end = dayjs(item[this.selfProps.endDate]).valueOf();
+      // if (_child_max > _parent_end) {
+      //   // 如果子节点结束时间比父节点晚，则将父节点结束时间退后
+      //   this.$set(item, this.selfProps.endDate, this.timeFormat(_child_max));
+      //   this.emitTimeChange(item); // 将发生时间更新的数据输出
+      // }
     },
     // 处理前置任务节点    /// ---- 此使前置任务校验处理还没开始，因此出错，前置处理后手动调用vue视图更新试试
     handlePreTask(item) {
