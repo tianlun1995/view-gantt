@@ -73,6 +73,11 @@
               ></i>
             </template>
           </el-table-column>
+          <el-table-column prop="btn" label="操作" fixed align="center">
+            <template slot-scope="scope">
+              <el-button @click="abc(scope)">ccc</el-button>
+            </template>
+          </el-table-column>
         </template>
         <template #info-card="{ row }">
           <ul>
@@ -128,8 +133,11 @@ export default {
     }
   },
   methods: {
+    abc(row) {
+      console.log(row);
+    },
     aaa(row) {
-      debugger
+      // debugger
       console.log(1111, row);
     },
     //隐藏按钮插槽
