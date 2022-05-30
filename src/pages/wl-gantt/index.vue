@@ -122,7 +122,6 @@
           <slot name="prv"></slot>
           <el-table-column
             :resizable="false"
-            fixed
             width="110"
             align="center"
             :prop="selfProps.startDate"
@@ -152,7 +151,6 @@
             </template>
           </el-table-column>
           <el-table-column
-            fixed
             :resizable="false"
             width="110"
             align="center"

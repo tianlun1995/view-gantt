@@ -44,13 +44,12 @@
           <el-table-column
             prop="standardProgress"
             label="标准进度"
-            fixed
             align="center"
           >
           </el-table-column>
-          <el-table-column prop="submitDoc" label="交付物" fixed align="center">
+          <el-table-column prop="submitDoc" label="交付物" align="center">
           </el-table-column>
-          <el-table-column prop="status" label="状态" fixed align="center">
+          <el-table-column prop="status" label="状态" align="center">
             <template slot-scope="scope">
               <!-- 0未锁定  1锁定 -->
               <span>
@@ -58,12 +57,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="lockStatus"
-            label="锁定否"
-            fixed
-            align="center"
-          >
+          <el-table-column prop="lockStatus" label="锁定否" align="center">
             <template slot-scope="scope">
               <!-- 0未锁定  1锁定 -->
               <i
@@ -73,7 +67,9 @@
               ></i>
             </template>
           </el-table-column>
-          <el-table-column prop="btn" label="操作" fixed align="center">
+        </template>
+        <template slot>
+          <el-table-column prop="btn" label="操作" align="center">
             <template slot-scope="scope">
               <el-button @click="abc(scope)">ccc</el-button>
             </template>
